@@ -25,10 +25,7 @@
       margin-bottom: 50px;
     }
 
-    .logo {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
+    .logo { font-size: 48px; margin-bottom: 10px; }
 
     h1 {
       font-size: 36px;
@@ -39,9 +36,17 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .subtitle {
-      color: #a0a0a0;
-      font-size: 18px;
+    .subtitle { color: #a0a0a0; font-size: 18px; }
+
+    .demo-badge {
+      display: inline-block;
+      background: rgba(255, 107, 107, 0.2);
+      border: 1px solid #ff6b6b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #ff6b6b;
+      margin-top: 15px;
     }
 
     .stats-grid {
@@ -65,18 +70,8 @@
       box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     }
 
-    .stat-value {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .stat-label {
-      color: #a0a0a0;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+    .stat-value { font-size: 48px; font-weight: 700; margin-bottom: 10px; }
+    .stat-label { color: #a0a0a0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
 
     .stat-card.experiments .stat-value { color: #48dbfb; }
     .stat-card.sent .stat-value { color: #feca57; }
@@ -99,6 +94,147 @@
       gap: 10px;
     }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 15px;
+    }
+
+    .tab-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 24px;
+      border-radius: 10px;
+      color: #a0a0a0;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: rgba(72, 219, 251, 0.2);
+      border-color: #48dbfb;
+      color: #fff;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Sample Messages */
+    .samples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .sample-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #48dbfb;
+    }
+
+    .sample-card.whatsapp { border-left-color: #25D366; }
+    .sample-card.push { border-left-color: #feca57; }
+    .sample-card.sms { border-left-color: #ff6b6b; }
+
+    .sample-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .sample-cohort {
+      font-size: 12px;
+      color: #a0a0a0;
+      text-transform: uppercase;
+    }
+
+    .sample-channel {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .sample-message {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .sample-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .sample-tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      color: #888;
+    }
+
+    /* Results Table */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .results-table th, .results-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .results-table th {
+      color: #a0a0a0;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .results-table tr:hover {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .cvr-bar {
+      width: 100px;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      display: inline-block;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .cvr-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .cvr-fill.high { background: #26de81; }
+    .cvr-fill.medium { background: #feca57; }
+    .cvr-fill.low { background: #ff6b6b; }
+
+    .winner-badge {
+      background: rgba(38, 222, 129, 0.2);
+      color: #26de81;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      margin-left: 8px;
+    }
+
+    /* Experiments list */
     .experiments-list {
       display: flex;
       flex-direction: column;
@@ -129,15 +265,8 @@
     .status-sent { background: rgba(72, 219, 251, 0.2); }
     .status-converted { background: rgba(38, 222, 129, 0.2); }
 
-    .experiment-info h3 {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    .experiment-info p {
-      color: #a0a0a0;
-      font-size: 14px;
-    }
+    .experiment-info h3 { font-size: 16px; margin-bottom: 5px; }
+    .experiment-info p { color: #a0a0a0; font-size: 14px; }
 
     .experiment-message {
       background: rgba(255,255,255,0.05);
@@ -162,35 +291,20 @@
       color: #ccc;
     }
 
+    /* How it works */
     .how-it-works {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
 
-    .step {
-      text-align: center;
-      padding: 20px;
-    }
+    .step { text-align: center; padding: 20px; }
+    .step-icon { font-size: 40px; margin-bottom: 15px; }
+    .step h3 { font-size: 16px; margin-bottom: 10px; }
+    .step p { color: #a0a0a0; font-size: 14px; }
 
-    .step-icon {
-      font-size: 40px;
-      margin-bottom: 15px;
-    }
-
-    .step h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .step p {
-      color: #a0a0a0;
-      font-size: 14px;
-    }
-
-    .demo-section {
-      text-align: center;
-    }
+    /* Demo section */
+    .demo-section { text-align: center; }
 
     .demo-btn {
       background: linear-gradient(90deg, #ff6b6b, #feca57);
@@ -209,10 +323,7 @@
       box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
     }
 
-    .demo-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .demo-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .demo-result {
       margin-top: 20px;
@@ -230,37 +341,6 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    .live-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(38, 222, 129, 0.2);
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-bottom: 20px;
-    }
-
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: #26de81;
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #666;
-      font-size: 14px;
     }
 
     .cohort-selector {
@@ -286,11 +366,7 @@
       border-color: #48dbfb;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-    }
+    .empty-state { text-align: center; padding: 40px; color: #666; }
 
     .refresh-btn {
       background: none;
@@ -303,8 +379,13 @@
       margin-left: auto;
     }
 
-    .refresh-btn:hover {
-      background: rgba(255,255,255,0.1);
+    .refresh-btn:hover { background: rgba(255,255,255,0.1); }
+
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #666;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -314,38 +395,30 @@
       <div class="logo">🧪</div>
       <h1>Stage Experiment Engine</h1>
       <p class="subtitle">AI-Powered Re-engagement Automation</p>
+      <div class="demo-badge">DEMO MODE - Sample Data (Not Connected to Live Amplitude/CleverTap)</div>
     </header>
-
-    <div style="text-align: center;">
-      <div class="live-indicator">
-        <span class="live-dot"></span>
-        <span>LIVE</span>
-      </div>
-    </div>
 
     <div class="stats-grid">
       <div class="stat-card experiments">
-        <div class="stat-value" id="total-experiments">-</div>
+        <div class="stat-value" id="total-experiments">1,247</div>
         <div class="stat-label">Total Experiments</div>
       </div>
       <div class="stat-card sent">
-        <div class="stat-value" id="total-sent">-</div>
+        <div class="stat-value" id="total-sent">1,180</div>
         <div class="stat-label">Messages Sent</div>
       </div>
       <div class="stat-card converted">
-        <div class="stat-value" id="total-converted">-</div>
+        <div class="stat-value" id="total-converted">142</div>
         <div class="stat-label">Conversions</div>
       </div>
       <div class="stat-card cvr">
-        <div class="stat-value" id="overall-cvr">-</div>
+        <div class="stat-value" id="overall-cvr">12.0%</div>
         <div class="stat-label">Conversion Rate</div>
       </div>
     </div>
 
     <div class="section">
-      <h2>
-        <span>🎯</span> How It Works
-      </h2>
+      <h2><span>🎯</span> How It Works</h2>
       <div class="how-it-works">
         <div class="step">
           <div class="step-icon">📡</div>
@@ -375,10 +448,222 @@
       </div>
     </div>
 
+    <div class="section">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="samples">Sample Messages</button>
+        <button class="tab-btn" data-tab="results">What's Working</button>
+        <button class="tab-btn" data-tab="experiments">Live Experiments</button>
+      </div>
+
+      <!-- Sample Messages Tab -->
+      <div class="tab-content active" id="tab-samples">
+        <div class="samples-grid">
+          <div class="sample-card whatsapp">
+            <div class="sample-header">
+              <span class="sample-cohort">Paywall Bouncer</span>
+              <span class="sample-channel">WhatsApp</span>
+            </div>
+            <div class="sample-message">🤔 Did she find out the truth?... Watch Episode 1 FREE</div>
+            <div class="sample-tags">
+              <span class="sample-tag">curious tone</span>
+              <span class="sample-tag">cliffhanger</span>
+              <span class="sample-tag">free episode</span>
+              <span class="sample-tag">2hr delay</span>
+            </div>
+          </div>
+
+          <div class="sample-card push">
+            <div class="sample-header">
+              <span class="sample-cohort">Checkout Abandoner</span>
+              <span class="sample-channel">Push</span>
+            </div>
+            <div class="sample-message">⏰ Only 3 hours left! 50% OFF today only - hurry!</div>
+            <div class="sample-tags">
+              <span class="sample-tag">urgent tone</span>
+              <span class="sample-tag">scarcity</span>
+              <span class="sample-tag">50% discount</span>
+              <span class="sample-tag">30min delay</span>
+            </div>
+          </div>
+
+          <div class="sample-card sms">
+            <div class="sample-header">
+              <span class="sample-cohort">Payment Failed</span>
+              <span class="sample-channel">SMS</span>
+            </div>
+            <div class="sample-message">Hey! 👋 We saved your spot. Just ₹1 to start your trial</div>
+            <div class="sample-tags">
+              <span class="sample-tag">friendly tone</span>
+              <span class="sample-tag">reciprocity</span>
+              <span class="sample-tag">₹1 trial</span>
+              <span class="sample-tag">5min delay</span>
+            </div>
+          </div>
+
+          <div class="sample-card whatsapp">
+            <div class="sample-header">
+              <span class="sample-cohort">Paywall Bouncer</span>
+              <span class="sample-channel">WhatsApp</span>
+            </div>
+            <div class="sample-message">🎬 3,247 people watching right now! Join 1 lakh+ subscribers</div>
+            <div class="sample-tags">
+              <span class="sample-tag">fomo</span>
+              <span class="sample-tag">social proof</span>
+              <span class="sample-tag">no offer</span>
+              <span class="sample-tag">next evening</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Tab -->
+      <div class="tab-content" id="tab-results">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Combination</th>
+              <th>Channel</th>
+              <th>Sent</th>
+              <th>Converted</th>
+              <th>CVR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong>Curious + Cliffhanger + Free Episode</strong>
+                <span class="winner-badge">TOP PERFORMER</span>
+              </td>
+              <td>WhatsApp</td>
+              <td>156</td>
+              <td>28</td>
+              <td>
+                <span class="cvr-bar"><span class="cvr-fill high" style="width: 90%"></span></span>
+                <strong style="color: #26de81">17.9%</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Urgent + Scarcity + 50% Discount</strong></td>
+              <td>Push</td>
+              <td>203</td>
+              <td>31</td>
+              <td>
+                <span class="cvr-bar"><span class="cvr-fill high" style="width: 76%"></span></span>
+                <strong style="color: #26de81">15.3%</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Friendly + Reciprocity + ₹1 Trial</strong></td>
+              <td>SMS</td>
+              <td>189</td>
+              <td>25</td>
+              <td>
+                <span class="cvr-bar"><span class="cvr-fill medium" style="width: 66%"></span></span>
+                <strong style="color: #feca57">13.2%</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>FOMO + Social Proof + No Offer</strong></td>
+              <td>WhatsApp</td>
+              <td>178</td>
+              <td>21</td>
+              <td>
+                <span class="cvr-bar"><span class="cvr-fill medium" style="width: 59%"></span></span>
+                <strong style="color: #feca57">11.8%</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Personal + Personalization + Cashback</strong></td>
+              <td>Push</td>
+              <td>145</td>
+              <td>12</td>
+              <td>
+                <span class="cvr-bar"><span class="cvr-fill low" style="width: 41%"></span></span>
+                <strong style="color: #ff6b6b">8.3%</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Regional + Free Value + Extended Preview</strong></td>
+              <td>SMS</td>
+              <td>132</td>
+              <td>8</td>
+              <td>
+                <span class="cvr-bar"><span class="cvr-fill low" style="width: 30%"></span></span>
+                <strong style="color: #ff6b6b">6.1%</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="color: #666; font-size: 12px; margin-top: 20px; text-align: center;">
+          * Sample data for demonstration. Real results will vary based on actual user behavior.
+        </p>
+      </div>
+
+      <!-- Live Experiments Tab -->
+      <div class="tab-content" id="tab-experiments">
+        <div class="experiments-list" id="experiments-list">
+          <div class="experiment-card">
+            <div class="experiment-status status-converted">✅</div>
+            <div class="experiment-info">
+              <h3>user_mum_8821</h3>
+              <p>checkout abandoners</p>
+              <div class="combo-tags">
+                <span class="combo-tag">⏰ 30min</span>
+                <span class="combo-tag">📱 whatsapp</span>
+                <span class="combo-tag">🎯 scarcity</span>
+                <span class="combo-tag">🎁 50% off</span>
+              </div>
+            </div>
+            <div class="experiment-message">⏰ Only 2 hours left! 50% OFF today only - hurry!</div>
+          </div>
+          <div class="experiment-card">
+            <div class="experiment-status status-sent">📤</div>
+            <div class="experiment-info">
+              <h3>user_del_4456</h3>
+              <p>paywall bouncers</p>
+              <div class="combo-tags">
+                <span class="combo-tag">⏰ 2hr</span>
+                <span class="combo-tag">📱 push</span>
+                <span class="combo-tag">🎯 cliffhanger</span>
+                <span class="combo-tag">🎁 free episode</span>
+              </div>
+            </div>
+            <div class="experiment-message">🤔 You won't believe what happens next... Watch Episode 1 FREE</div>
+          </div>
+          <div class="experiment-card">
+            <div class="experiment-status status-sent">📤</div>
+            <div class="experiment-info">
+              <h3>user_blr_7123</h3>
+              <p>payment failed</p>
+              <div class="combo-tags">
+                <span class="combo-tag">⏰ 5min</span>
+                <span class="combo-tag">📱 sms</span>
+                <span class="combo-tag">🎯 reciprocity</span>
+                <span class="combo-tag">🎁 ₹1 trial</span>
+              </div>
+            </div>
+            <div class="experiment-message">Hey! 👋 We kept it ready for you. Just ₹1 to start</div>
+          </div>
+          <div class="experiment-card">
+            <div class="experiment-status status-pending">⏳</div>
+            <div class="experiment-info">
+              <h3>user_hyd_9034</h3>
+              <p>paywall bouncers</p>
+              <div class="combo-tags">
+                <span class="combo-tag">⏰ next evening</span>
+                <span class="combo-tag">📱 whatsapp</span>
+                <span class="combo-tag">🎯 social proof</span>
+                <span class="combo-tag">🎁 no offer</span>
+              </div>
+            </div>
+            <div class="experiment-message">Rated 4.8 by 10K viewers. Join 1 lakh+ subscribers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="section demo-section">
-      <h2 style="justify-content: center;">
-        <span>🚀</span> Try It Live
-      </h2>
+      <h2 style="justify-content: center;"><span>🚀</span> Try It Live</h2>
       <p style="color: #a0a0a0; margin-bottom: 20px;">Select a cohort and trigger a test experiment</p>
 
       <div class="cohort-selector">
@@ -387,9 +672,7 @@
         <button class="cohort-btn" data-cohort="paywall_bouncers">Paywall Bouncers</button>
       </div>
 
-      <button class="demo-btn" id="trigger-btn">
-        ⚡ Trigger Experiment
-      </button>
+      <button class="demo-btn" id="trigger-btn">⚡ Trigger Experiment</button>
 
       <div class="demo-result" id="demo-result">
         <h3 style="margin-bottom: 15px;">✅ Experiment Created!</h3>
@@ -398,22 +681,23 @@
       </div>
     </div>
 
-    <div class="section">
-      <h2 style="display: flex; align-items: center;">
-        <span>📊</span> Recent Experiments
-        <button class="refresh-btn" onclick="loadExperiments()">↻ Refresh</button>
-      </h2>
-      <div class="experiments-list" id="experiments-list">
-        <div class="empty-state">Loading experiments...</div>
-      </div>
-    </div>
-
     <div class="footer">
       <p>Built for Stage Hackathon 2024 | Powered by Multi-Armed Bandit Algorithm</p>
+      <p style="margin-top: 10px; color: #444;">Made with BMAD Method</p>
     </div>
   </div>
 
   <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
     let selectedCohort = 'checkout_abandoners';
 
     // Cohort selector
@@ -424,70 +708,6 @@
         selectedCohort = btn.dataset.cohort;
       });
     });
-
-    // Load stats
-    async function loadStats() {
-      try {
-        const res = await fetch('/api/stats');
-        const data = await res.json();
-
-        document.getElementById('total-experiments').textContent = data.summary.total_experiments;
-        document.getElementById('total-sent').textContent = data.summary.total_sent;
-        document.getElementById('total-converted').textContent = data.summary.total_converted;
-        document.getElementById('overall-cvr').textContent = data.summary.overall_cvr;
-      } catch (e) {
-        console.error('Failed to load stats:', e);
-      }
-    }
-
-    // Load experiments
-    async function loadExperiments() {
-      try {
-        const res = await fetch('/api/experiments?limit=10');
-        const experiments = await res.json();
-
-        const list = document.getElementById('experiments-list');
-
-        if (experiments.length === 0) {
-          list.innerHTML = '<div class="empty-state">No experiments yet. Trigger one above!</div>';
-          return;
-        }
-
-        list.innerHTML = experiments.map(exp => {
-          const statusEmoji = {
-            pending: '⏳',
-            sent: '📤',
-            opened: '👁️',
-            converted: '✅'
-          }[exp.status] || '❓';
-
-          const statusClass = {
-            pending: 'status-pending',
-            sent: 'status-sent',
-            converted: 'status-converted'
-          }[exp.status] || 'status-pending';
-
-          return `
-            <div class="experiment-card">
-              <div class="experiment-status ${statusClass}">${statusEmoji}</div>
-              <div class="experiment-info">
-                <h3>${exp.user_id}</h3>
-                <p>${exp.cohort.replace(/_/g, ' ')}</p>
-                <div class="combo-tags">
-                  <span class="combo-tag">⏰ ${exp.timing}</span>
-                  <span class="combo-tag">📱 ${exp.channel}</span>
-                  <span class="combo-tag">🎯 ${exp.lever}</span>
-                  <span class="combo-tag">🎁 ${exp.offer}</span>
-                </div>
-              </div>
-              <div class="experiment-message">${exp.message}</div>
-            </div>
-          `;
-        }).join('');
-      } catch (e) {
-        console.error('Failed to load experiments:', e);
-      }
-    }
 
     // Trigger experiment
     document.getElementById('trigger-btn').addEventListener('click', async () => {
@@ -520,10 +740,6 @@
             <span class="combo-tag">🎭 ${data.experiment.combo.tone}</span>
           `;
           result.classList.add('show');
-
-          // Refresh stats and experiments
-          loadStats();
-          loadExperiments();
         }
       } catch (e) {
         console.error('Failed to trigger experiment:', e);
@@ -532,16 +748,6 @@
         btn.textContent = '⚡ Trigger Experiment';
       }
     });
-
-    // Initial load
-    loadStats();
-    loadExperiments();
-
-    // Auto-refresh every 30 seconds
-    setInterval(() => {
-      loadStats();
-      loadExperiments();
-    }, 30000);
   </script>
 </body>
 </html>
