@@ -709,6 +709,55 @@
       });
     });
 
+    // Load stats from API
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        document.getElementById('total-experiments').textContent = data.summary.total_experiments.toLocaleString();
+        document.getElementById('total-sent').textContent = data.summary.total_sent.toLocaleString();
+        document.getElementById('total-converted').textContent = data.summary.total_converted.toLocaleString();
+        document.getElementById('overall-cvr').textContent = data.summary.overall_cvr;
+      } catch (e) {
+        console.error('Failed to load stats:', e);
+      }
+    }
+
+    // Load experiments from API
+    async function loadExperiments() {
+      try {
+        const res = await fetch('/api/experiments?limit=10');
+        const experiments = await res.json();
+        const list = document.getElementById('experiments-list');
+
+        if (experiments.length === 0) return;
+
+        list.innerHTML = experiments.map(exp => {
+          const statusEmoji = { pending: '⏳', sent: '📤', opened: '👁️', converted: '✅' }[exp.status] || '❓';
+          const statusClass = { pending: 'status-pending', sent: 'status-sent', opened: 'status-sent', converted: 'status-converted' }[exp.status] || 'status-pending';
+
+          return `
+            <div class="experiment-card">
+              <div class="experiment-status ${statusClass}">${statusEmoji}</div>
+              <div class="experiment-info">
+                <h3>${exp.user_id}</h3>
+                <p>${exp.cohort.replace(/_/g, ' ')}</p>
+                <div class="combo-tags">
+                  <span class="combo-tag">⏰ ${exp.timing}</span>
+                  <span class="combo-tag">📱 ${exp.channel}</span>
+                  <span class="combo-tag">🎯 ${exp.lever}</span>
+                  <span class="combo-tag">🎁 ${exp.offer}</span>
+                </div>
+              </div>
+              <div class="experiment-message">${exp.message}</div>
+            </div>
+          `;
+        }).join('');
+      } catch (e) {
+        console.error('Failed to load experiments:', e);
+      }
+    }
+
     // Trigger experiment
     document.getElementById('trigger-btn').addEventListener('click', async () => {
       const btn = document.getElementById('trigger-btn');
@@ -740,6 +789,10 @@
             <span class="combo-tag">🎭 ${data.experiment.combo.tone}</span>
           `;
           result.classList.add('show');
+
+          // Refresh data
+          loadStats();
+          loadExperiments();
         }
       } catch (e) {
         console.error('Failed to trigger experiment:', e);
@@ -748,6 +801,10 @@
         btn.textContent = '⚡ Trigger Experiment';
       }
     });
+
+    // Initial load
+    loadStats();
+    loadExperiments();
   </script>
 </body>
 </html>

@@ -49,6 +49,84 @@ const db = new Low(adapter, defaultData);
 // Initialize database
 await db.read();
 db.data ||= defaultData;
+
+// Seed demo data if empty
+if (db.data.experiments.length === 0) {
+  console.log('[DB] Seeding demo data...');
+
+  const cohorts = ['checkout_abandoners', 'payment_failed', 'paywall_bouncers'];
+  const timings = ['2min', '5min', '30min', '1hr', '2hr'];
+  const channels = ['push', 'whatsapp', 'sms'];
+  const levers = ['scarcity', 'fomo', 'social_proof', 'free_value', 'reciprocity', 'cliffhanger'];
+  const offers = ['free_episode', 'discount_50', 'rupee_1_trial', 'paytm_cashback', 'no_offer'];
+  const tones = ['urgent', 'friendly', 'curious', 'personal'];
+  const statuses = ['sent', 'sent', 'sent', 'converted', 'opened'];
+  const cities = ['mum', 'del', 'blr', 'hyd', 'chn', 'kol', 'pun', 'ahd'];
+
+  const messages = [
+    '🤔 Did she find out the truth?... Watch Episode 1 FREE',
+    '⏰ Only 3 hours left! 50% OFF today only - hurry!',
+    'Hey! 👋 We saved your spot. Just ₹1 to start',
+    '🎬 3,247 people watching right now! Join 1 lakh+ subscribers',
+    'Your show is waiting... Continue your journey',
+    '⏰ Limited time only! 50% OFF today only - hurry!',
+    'Hey! 👋 We kept it ready for you. Just ₹1 to start',
+    '🤔 You won\'t believe what happens next... Watch Episode 1 FREE',
+    'Rated 4.8 by 10K viewers. Join 1 lakh+ subscribers',
+    'FREE episode waiting. On us - no strings attached'
+  ];
+
+  // Generate 50 experiments
+  for (let i = 0; i < 50; i++) {
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const city = cities[Math.floor(Math.random() * cities.length)];
+    const now = new Date();
+    const createdAt = new Date(now - Math.random() * 7 * 24 * 60 * 60 * 1000);
+
+    db.data.experiments.push({
+      id: uuidv4(),
+      user_id: `user_${city}_${Math.floor(Math.random() * 9000) + 1000}`,
+      cohort: cohorts[Math.floor(Math.random() * cohorts.length)],
+      timing: timings[Math.floor(Math.random() * timings.length)],
+      channel: channels[Math.floor(Math.random() * channels.length)],
+      lever: levers[Math.floor(Math.random() * levers.length)],
+      offer: offers[Math.floor(Math.random() * offers.length)],
+      tone: tones[Math.floor(Math.random() * tones.length)],
+      message: messages[Math.floor(Math.random() * messages.length)],
+      created_at: createdAt.toISOString(),
+      sent_at: status !== 'pending' ? new Date(createdAt.getTime() + 60000).toISOString() : null,
+      opened_at: status === 'opened' || status === 'converted' ? new Date(createdAt.getTime() + 120000).toISOString() : null,
+      converted_at: status === 'converted' ? new Date(createdAt.getTime() + 300000).toISOString() : null,
+      status
+    });
+  }
+
+  // Generate combo stats
+  const combos = [
+    { timing: '2hr', channel: 'whatsapp', lever: 'cliffhanger', offer: 'free_episode', sent: 156, converted: 28 },
+    { timing: '30min', channel: 'push', lever: 'scarcity', offer: 'discount_50', sent: 203, converted: 31 },
+    { timing: '5min', channel: 'sms', lever: 'reciprocity', offer: 'rupee_1_trial', sent: 189, converted: 25 },
+    { timing: '1hr', channel: 'whatsapp', lever: 'social_proof', offer: 'no_offer', sent: 178, converted: 21 },
+    { timing: '2min', channel: 'push', lever: 'personalization', offer: 'paytm_cashback', sent: 145, converted: 12 },
+    { timing: '4hr', channel: 'sms', lever: 'free_value', offer: 'free_episode', sent: 132, converted: 8 }
+  ];
+
+  combos.forEach(c => {
+    db.data.combo_stats.push({
+      combo_key: `${c.timing}|${c.channel}|${c.lever}|${c.offer}`,
+      timing: c.timing,
+      channel: c.channel,
+      lever: c.lever,
+      offer: c.offer,
+      sent_count: c.sent,
+      converted_count: c.converted,
+      last_updated: new Date().toISOString()
+    });
+  });
+
+  console.log('[DB] Seeded 50 experiments and 6 combo stats');
+}
+
 await db.write();
 
 console.log(`[DB] Using lowdb at ${dbPath}`);
