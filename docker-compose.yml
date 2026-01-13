@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  experiment-engine:
+    build: .
+    container_name: stage-experiment-engine
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - CLEVERTAP_ACCOUNT_ID=${CLEVERTAP_ACCOUNT_ID}
+      - CLEVERTAP_PASSCODE=${CLEVERTAP_PASSCODE}
+    volumes:
+      # Persist SQLite database
+      - experiment-data:/app/data
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  experiment-data:
