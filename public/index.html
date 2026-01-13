@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Experiment Engine</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #a0a0a0;
+      font-size: 18px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .stat-value {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: #a0a0a0;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat-card.experiments .stat-value { color: #48dbfb; }
+    .stat-card.sent .stat-value { color: #feca57; }
+    .stat-card.converted .stat-value { color: #26de81; }
+    .stat-card.cvr .stat-value { color: #ff6b6b; }
+
+    .section {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .section h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .experiments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .experiment-card {
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .experiment-status {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .status-pending { background: rgba(254, 202, 87, 0.2); }
+    .status-sent { background: rgba(72, 219, 251, 0.2); }
+    .status-converted { background: rgba(38, 222, 129, 0.2); }
+
+    .experiment-info h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .experiment-info p {
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+
+    .experiment-message {
+      background: rgba(255,255,255,0.05);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      max-width: 300px;
+    }
+
+    .combo-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .combo-tag {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .step {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .step-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .step h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+
+    .demo-section {
+      text-align: center;
+    }
+
+    .demo-btn {
+      background: linear-gradient(90deg, #ff6b6b, #feca57);
+      border: none;
+      padding: 15px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a2e;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .demo-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+    }
+
+    .demo-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .demo-result {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      display: none;
+    }
+
+    .demo-result.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(38, 222, 129, 0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #26de81;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .cohort-selector {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cohort-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cohort-btn:hover, .cohort-btn.active {
+      background: rgba(72, 219, 251, 0.3);
+      border-color: #48dbfb;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .refresh-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: auto;
+    }
+
+    .refresh-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">🧪</div>
+      <h1>Stage Experiment Engine</h1>
+      <p class="subtitle">AI-Powered Re-engagement Automation</p>
+    </header>
+
+    <div style="text-align: center;">
+      <div class="live-indicator">
+        <span class="live-dot"></span>
+        <span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card experiments">
+        <div class="stat-value" id="total-experiments">-</div>
+        <div class="stat-label">Total Experiments</div>
+      </div>
+      <div class="stat-card sent">
+        <div class="stat-value" id="total-sent">-</div>
+        <div class="stat-label">Messages Sent</div>
+      </div>
+      <div class="stat-card converted">
+        <div class="stat-value" id="total-converted">-</div>
+        <div class="stat-label">Conversions</div>
+      </div>
+      <div class="stat-card cvr">
+        <div class="stat-value" id="overall-cvr">-</div>
+        <div class="stat-label">Conversion Rate</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>
+        <span>🎯</span> How It Works
+      </h2>
+      <div class="how-it-works">
+        <div class="step">
+          <div class="step-icon">📡</div>
+          <h3>1. Event Detection</h3>
+          <p>Amplitude sends user events in real-time</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">🧠</div>
+          <h3>2. Smart Segmentation</h3>
+          <p>Engine detects abandonment patterns</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">🎰</div>
+          <h3>3. Multi-Armed Bandit</h3>
+          <p>AI picks best message combo to test</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">📲</div>
+          <h3>4. CleverTap Delivery</h3>
+          <p>Sends via Push, WhatsApp, or SMS</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">📈</div>
+          <h3>5. Learn & Optimize</h3>
+          <p>Tracks conversions, improves over time</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section demo-section">
+      <h2 style="justify-content: center;">
+        <span>🚀</span> Try It Live
+      </h2>
+      <p style="color: #a0a0a0; margin-bottom: 20px;">Select a cohort and trigger a test experiment</p>
+
+      <div class="cohort-selector">
+        <button class="cohort-btn active" data-cohort="checkout_abandoners">Checkout Abandoners</button>
+        <button class="cohort-btn" data-cohort="payment_failed">Payment Failed</button>
+        <button class="cohort-btn" data-cohort="paywall_bouncers">Paywall Bouncers</button>
+      </div>
+
+      <button class="demo-btn" id="trigger-btn">
+        ⚡ Trigger Experiment
+      </button>
+
+      <div class="demo-result" id="demo-result">
+        <h3 style="margin-bottom: 15px;">✅ Experiment Created!</h3>
+        <div id="demo-message" style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;"></div>
+        <div id="demo-combo" class="combo-tags" style="justify-content: center;"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 style="display: flex; align-items: center;">
+        <span>📊</span> Recent Experiments
+        <button class="refresh-btn" onclick="loadExperiments()">↻ Refresh</button>
+      </h2>
+      <div class="experiments-list" id="experiments-list">
+        <div class="empty-state">Loading experiments...</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Built for Stage Hackathon 2024 | Powered by Multi-Armed Bandit Algorithm</p>
+    </div>
+  </div>
+
+  <script>
+    let selectedCohort = 'checkout_abandoners';
+
+    // Cohort selector
+    document.querySelectorAll('.cohort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cohort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedCohort = btn.dataset.cohort;
+      });
+    });
+
+    // Load stats
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+
+        document.getElementById('total-experiments').textContent = data.summary.total_experiments;
+        document.getElementById('total-sent').textContent = data.summary.total_sent;
+        document.getElementById('total-converted').textContent = data.summary.total_converted;
+        document.getElementById('overall-cvr').textContent = data.summary.overall_cvr;
+      } catch (e) {
+        console.error('Failed to load stats:', e);
+      }
+    }
+
+    // Load experiments
+    async function loadExperiments() {
+      try {
+        const res = await fetch('/api/experiments?limit=10');
+        const experiments = await res.json();
+
+        const list = document.getElementById('experiments-list');
+
+        if (experiments.length === 0) {
+          list.innerHTML = '<div class="empty-state">No experiments yet. Trigger one above!</div>';
+          return;
+        }
+
+        list.innerHTML = experiments.map(exp => {
+          const statusEmoji = {
+            pending: '⏳',
+            sent: '📤',
+            opened: '👁️',
+            converted: '✅'
+          }[exp.status] || '❓';
+
+          const statusClass = {
+            pending: 'status-pending',
+            sent: 'status-sent',
+            converted: 'status-converted'
+          }[exp.status] || 'status-pending';
+
+          return `
+            <div class="experiment-card">
+              <div class="experiment-status ${statusClass}">${statusEmoji}</div>
+              <div class="experiment-info">
+                <h3>${exp.user_id}</h3>
+                <p>${exp.cohort.replace(/_/g, ' ')}</p>
+                <div class="combo-tags">
+                  <span class="combo-tag">⏰ ${exp.timing}</span>
+                  <span class="combo-tag">📱 ${exp.channel}</span>
+                  <span class="combo-tag">🎯 ${exp.lever}</span>
+                  <span class="combo-tag">🎁 ${exp.offer}</span>
+                </div>
+              </div>
+              <div class="experiment-message">${exp.message}</div>
+            </div>
+          `;
+        }).join('');
+      } catch (e) {
+        console.error('Failed to load experiments:', e);
+      }
+    }
+
+    // Trigger experiment
+    document.getElementById('trigger-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('trigger-btn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Creating...';
+
+      try {
+        const userId = 'demo_user_' + Math.random().toString(36).substr(2, 6);
+
+        const res = await fetch('/api/trigger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+            cohort: selectedCohort
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          const result = document.getElementById('demo-result');
+          document.getElementById('demo-message').textContent = data.experiment.message;
+          document.getElementById('demo-combo').innerHTML = `
+            <span class="combo-tag">⏰ ${data.experiment.combo.timing}</span>
+            <span class="combo-tag">📱 ${data.experiment.combo.channel}</span>
+            <span class="combo-tag">🎯 ${data.experiment.combo.lever}</span>
+            <span class="combo-tag">🎁 ${data.experiment.combo.offer}</span>
+            <span class="combo-tag">🎭 ${data.experiment.combo.tone}</span>
+          `;
+          result.classList.add('show');
+
+          // Refresh stats and experiments
+          loadStats();
+          loadExperiments();
+        }
+      } catch (e) {
+        console.error('Failed to trigger experiment:', e);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '⚡ Trigger Experiment';
+      }
+    });
+
+    // Initial load
+    loadStats();
+    loadExperiments();
+
+    // Auto-refresh every 30 seconds
+    setInterval(() => {
+      loadStats();
+      loadExperiments();
+    }, 30000);
+  </script>
+</body>
+</html>

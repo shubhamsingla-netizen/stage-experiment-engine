@@ -26,6 +26,9 @@ const __dirname = dirname(__filename);
 const app = express();
 app.use(express.json());
 
+// Serve static files (landing page)
+app.use(express.static(join(__dirname, 'public')));
+
 // ============================================
 // DATABASE SETUP (lowdb - JSON file)
 // ============================================
